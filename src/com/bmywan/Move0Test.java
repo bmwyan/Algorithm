@@ -1,5 +1,6 @@
 package com.bmywan;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,6 +16,6 @@ public class Move0Test {
 
     @Test
     public void moveZeroes2() {
-        m.moveZeroes2(new int[]{0,1,0,3,12});
+
     }
 }
