@@ -11,13 +11,10 @@ package week02;
 public class UglyNumber {
 
     public int nthUglyNumber(int n) {
-
         int[] dp = new int[n + 1];
-
         dp[0] = 1;
-        int a = 1;
-        int b = 1;
-        int c = 1;
+        int a = 1,b=1,c=1;
+
         for (int i = 1; i <= n; i++) {
             int n2 = dp[a] * 2;
             int n3 = dp[b] * 3;
