@@ -1,9 +1,8 @@
 package com.bmywan.recursion;
 
+import com.bmywan.backtracking.TaskAssign;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class TaskAssignTest {
     TaskAssign task = new TaskAssign();

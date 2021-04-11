@@ -1,8 +1,6 @@
 package week02.tree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author : admin
@@ -15,7 +13,7 @@ import java.util.List;
 public class NTreeLevelOrder {
 
     /**
-     * 采用广度优先搜索的方式
+     * 采用BFS
      *
      * @param root
      * @return
@@ -25,31 +23,55 @@ public class NTreeLevelOrder {
         if (root == null) {
             return res;
         }
-        LinkedList<Node> queue = new LinkedList<Node>();
+        LinkedList<Node> queue = new LinkedList<>();
         queue.add(root);
-        int count = 1;
-
         while (!queue.isEmpty()) {
-            List<Integer> l = new ArrayList<>();
-            int start = 0;
-            int nextCount = 0;
-            while (start++ < count) {
-                Node node = queue.pop();
-                if (node != null) {
-                    l.add(node.val);
-                    if (node.children != null && !node.children.isEmpty()) {
-                        for (Node child : node.children) {
-                            queue.add(child);
-                            nextCount++;
-                        }
-                    }
-                }
-
+            List<Integer> li = new ArrayList<>();
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Node node = queue.poll();
+                li.add(node.val);
+                queue.addAll(node.children);
             }
-            count = nextCount;
-            res.add(l);
-        }
+            res.add(li);
 
+        }
         return res;
+    }
+
+    /**
+     * 采用DFS
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder2(Node root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Map<Integer, List<Integer>> levelMap = new HashMap<>();
+        dfs(root, 0, levelMap);
+
+        res = new ArrayList<List<Integer>>(levelMap.values());
+        return res;
+    }
+
+    /**
+     * @param root
+     * @param level
+     * @param levelMap
+     */
+    private void dfs(Node root, int level, Map<Integer, List<Integer>> levelMap) {
+        if (root == null) {
+            return;
+        }
+        if (levelMap.get(level) == null) {
+            levelMap.put(level, levelMap.getOrDefault(level, new ArrayList<Integer>()));
+        }
+        levelMap.get(level).add(root.val);
+        for (Node child : root.children) {
+            this.dfs(child, level + 1, levelMap);
+        }
     }
 }

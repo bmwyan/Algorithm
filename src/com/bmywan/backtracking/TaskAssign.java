@@ -1,4 +1,4 @@
-package com.bmywan.recursion;
+package com.bmywan.backtracking;
 
 
 public class TaskAssign {
@@ -25,6 +25,10 @@ public class TaskAssign {
         }
 
         for(int i=0;i<personTime.length;i++){
+            if(personTime[i]+jobs[index]>res){
+                continue;
+            }
+
             personTime[i]+=jobs[index];
             this.backjob(jobs,personTime,index+1);
             personTime[i]-=jobs[index];
