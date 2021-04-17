@@ -1,6 +1,6 @@
 package week02.tree;
 
-import week02.tree.TreeNode;
+import meta.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
