@@ -19,36 +19,44 @@ public class PermuteUniqueII {
 
     public List<List<Integer>> permuteUnique(int[] nums) {
         Arrays.sort(nums);
-        int size = nums.length;
         LinkedList<Integer> list = new LinkedList<>();
-        boolean[] used = new boolean[size];
 
-        backTracking(nums, 0, list, used);
+        boolean[] used = new boolean[nums.length];
+        backTracking(nums, 0, used, list);
 
         return res;
     }
 
-    private void backTracking(int[] nums, int depth, LinkedList<Integer> list, boolean[] used) {
-
+    private void backTracking(int[] nums, int depth, boolean[] used, LinkedList<Integer> list) {
         if (depth == nums.length) {
             res.add(new ArrayList<>(list));
             return;
         }
 
         for (int i = 0; i < nums.length; i++) {
+
             if (used[i]) {
+                continue;
+            }
+
+            if (i > 0 && nums[i - 1] == nums[i] && !used[i - 1]) {
                 continue;
             }
 
             list.add(nums[i]);
             used[i] = true;
-            backTracking(nums, depth + 1, list, used);
-            list.removeLast();
+            this.backTracking(nums, depth + 1, used, list);
             used[i] = false;
-            while (i < (nums.length - 1) && nums[i] == nums[i + 1]) {
-                i++;
-            }
-        }
+            list.removeLast();
+//            while (i < nums.length - 1) {
+//                if (nums[i] == nums[i + 1]) {
+//                    i++;
+//                } else {
+//                    break;
+//                }
+//            }
 
+        }
     }
+
 }

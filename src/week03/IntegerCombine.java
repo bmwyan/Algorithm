@@ -17,29 +17,29 @@ public class IntegerCombine {
     private List<List<Integer>> res = new ArrayList<>();
 
     public List<List<Integer>> combine(int n, int k) {
-        LinkedList<Integer> li = new LinkedList<>();
-        backTracking(n, 1, k, li);
+        if (n < k) {
+            return res;
+        }
+
+        LinkedList<Integer> list = new LinkedList<>();
+        backTracking(n, k, 1, list);
+
         return res;
-
     }
 
-    private void backTracking(int n, int begin, int k, LinkedList<Integer> li) {
-
-        if (k == 0) {
-            res.add(new ArrayList<>(li));
+    private void backTracking(int n, int k, int startIndex, LinkedList<Integer> list) {
+        if (list.size() == k) {
+            res.add(new ArrayList<>(list));
             return;
         }
 
-        if (n == begin) {
-            return;
+        for (int i = startIndex; i <= n; i++) {
+            list.add(i);
+            this.backTracking(n, k, i + 1, list);
+            list.removeLast();
 
         }
-
-        for (int i = begin; i <= n; i++) {
-            li.add(begin);
-            backTracking(n, i + 1, k-1, li);
-            li.removeLast();
-        }
-
     }
+
+
 }

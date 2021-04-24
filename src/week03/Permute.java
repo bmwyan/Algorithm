@@ -14,30 +14,35 @@ public class Permute {
     private List<List<Integer>> res = new ArrayList<>();
 
     public List<List<Integer>> permute(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return res;
+        }
+
         LinkedList<Integer> list = new LinkedList<>();
-        int size = nums.length;
-        boolean[] used = new boolean[size];
-        backTracking(nums, size, 0, list, used);
+
+        boolean[] used = new boolean[nums.length];
+
+        backTracking(nums, 0, used, list);
         return res;
     }
 
-    private void backTracking(int[] nums, int size, int index, LinkedList<Integer> list, boolean[] used) {
-        if (index == size) {
+    private void backTracking(int[] nums, int index, boolean[] used, LinkedList<Integer> list) {
+        if (index == nums.length) {
             res.add(new ArrayList<>(list));
             return;
         }
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < nums.length; i++) {
             if (used[i]) {
                 continue;
             }
 
-            list.add(nums[i]);
             used[i] = true;
-
-            this.backTracking(nums, size, index + 1, list, used);
-            list.removeLast();
+            list.add(nums[i]);
+            this.backTracking(nums, index + 1, used, list);
             used[i] = false;
+            list.removeLast();
         }
     }
+
 }
