@@ -9,43 +9,35 @@ package week04;
  * @date Date : 2021年04月24日 14:31
  */
 public class NumIsLands {
+    private int[] directions = new int[]{-1, 0, 1, 0, -1};
 
     public int numIslands(char[][] grid) {
-        int num = 0;
-        for (int i = 0; i < grid.length; i++) {
+        int count = 0;
+        for (int i = 0; i < grid.length; i++)
             for (int j = 0; j < grid[0].length; j++) {
                 if (grid[i][j] == '1') {
                     dfs(grid, i, j);
-                    num++;
+                    count++;
                 }
+
             }
-        }
-        return num;
+        return count;
     }
 
     private void dfs(char[][] grid, int i, int j) {
-        if (!inArea(grid, i, j)) {
+        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length) {
             return;
         }
         if (grid[i][j] != '1') {
             return;
         }
 
-        if (grid[i][j] == '1') {
-            //遍历过标识成2
-            grid[i][j] = '2';
-            dfs(grid, i + 1, j);
-            dfs(grid, i - 1, j);
-            dfs(grid, i, j + 1);
-            dfs(grid, i, j - 1);
-        }
-    }
 
-    private boolean inArea(char[][] grid, int i, int j) {
-        boolean flag = false;
-        if (i >= 0 && i < grid.length && j >= 0 && j < grid[0].length) {
-            flag = true;
+        if (grid[i][j] == '1') {
+            grid[i][j] = '2';
+            for (int k = 0; k < 4; k++) {
+                dfs(grid, i + directions[k], j + directions[k + 1]);
+            }
         }
-        return flag;
     }
 }
