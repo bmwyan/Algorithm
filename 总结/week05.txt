@@ -1,0 +1,23 @@
+1.leecode126 单词接龙ii
+题解中的下面的代码逻辑没有看懂
+//这个逻辑关系顺序不能错，但没有懂
+                        if (steps.containsKey(nextWord) && steps.get(nextWord) == step) {
+                            from.get(nextWord).add(currWord);
+                        }
+
+                        if (!dictSet.contains(nextWord)) continue;
+
+2.二分查找的代码模板，再进行总结
+int left=0,right=lenth-1
+while(left<=right){
+    mid=(left+right)/2; 或者 mid=left+(right-left)/2
+    if(array[mid)==target){
+        return
+    }else if(array[mid]<target){
+        left=mid+1;
+    }else
+    {
+        right=mid-1;
+    }
+
+}

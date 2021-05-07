@@ -5,33 +5,28 @@ package week04;
  * @version V1.0
  * @Project: leecode
  * @Package week04
- * @Description: TODO
+ * @Description: leecode463 岛屿周长
  * @date Date : 2021年04月24日 21:49
  */
 public class IslandPerimeter {
-    private int[] directions = new int[]{-1, 0, 1, 0, -1};
+
+    private int[] directions = {-1, 0, 1, 0, -1};
 
     public int islandPerimeter(int[][] grid) {
         int sum = 0;
-        for (int i = 0; i < grid.length; i++) {
+        for (int i = 0; i < grid.length; i++)
             for (int j = 0; j < grid[0].length; j++) {
                 if (grid[i][j] == 1) {
                     sum = dfs(grid, i, j);
                 }
             }
-        }
-
         return sum;
     }
 
     private int dfs(int[][] grid, int i, int j) {
-        int sum = 0;
-        //从一个网格走向边界，周长+1
-        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length) {
+        if (inValid(grid, i, j)) {
             return 1;
         }
-
-        //边界是海洋，
         if (grid[i][j] == 0) {
             return 1;
         }
@@ -40,10 +35,19 @@ public class IslandPerimeter {
         }
 
         grid[i][j] = 2;
+        int sum = 0;
         for (int k = 0; k < 4; k++) {
-            sum += dfs(grid, i + directions[k], j + directions[k + 1]);
+            int x = i + directions[k];
+            int y = j + directions[k + 1];
+            sum += dfs(grid, x, y);
         }
 
         return sum;
     }
+
+    private boolean inValid(int[][] grid, int i, int j) {
+        return i < 0 || i >= grid.length || j < 0 || j >= grid[0].length;
+    }
+
+
 }
