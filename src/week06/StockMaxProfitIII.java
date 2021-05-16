@@ -15,41 +15,37 @@ public class StockMaxProfitIII {
         return maxProfit(2, prices);
     }
 
-    /**
-     * 买入的次数作为交易次数
-     *
-     * @param K
-     * @param prices
-     * @return
-     */
     public int maxProfit(int K, int[] prices) {
         int n = prices.length;
-        if (n <= 1) {
+        if (n < 2) {
             return 0;
         }
         K = Math.min(K, n / 2);
-        int[][][] mp = new int[n][K + 1][2];
-        //mp[i][k][0] 到第i天未未持有股票已交易k次的最大利润， 其中 买入股票时作为一次交易
-        //mp[i][k][1] 到第i天持有股票已交易k次的最大利润
-        int maxValue = 0;
-
-        //需要考虑边界i=0
+        int[][][] dp = new int[n][K + 1][2];
+        //DP[i][k][0]:第i天不持有股票交易了K次的最大利润,以买入次数作为交易次数
+        //DP[i][k][1]:第i天持有股票交易了K次的最大利润
+        //边界初始化 i=0;
         for (int k = 0; k <= K; k++) {
-            mp[0][k][0] = 0;
-            mp[0][k][1] = -prices[0];
+            dp[0][k][0] = 0;
+            dp[0][k][1] = -prices[0];
         }
 
-        for (int i = 1; i < n; i++) {
+        //k=0初始化
+        for (int i = 0; i < n; i++) {
+            dp[i][0][0] = 0;
+            dp[i][0][1] = 0;
+        }
+
+        for (int i = 1; i < n; i++)
             for (int k = 1; k <= K; k++) {
-                mp[i][k][0] = Math.max(mp[i - 1][k][0], mp[i - 1][k][1] + prices[i]);
-                mp[i][k][1] = Math.max(mp[i - 1][k][1], mp[i - 1][k - 1][0] - prices[i]);
+                dp[i][k][0] = Math.max(dp[i - 1][k][0], dp[i - 1][k][1] + prices[i]);
+                dp[i][k][1] = Math.max(dp[i - 1][k][1], dp[i - 1][k - 1][0] - prices[i]);
             }
-        }
-
+        int res = Integer.MIN_VALUE;
         for (int k = 0; k <= K; k++) {
-            maxValue = Math.max(maxValue, mp[n - 1][k][0]);
+            res = Math.max(res, dp[n - 1][k][0]);
         }
-        return maxValue;
+        return res;
     }
 
 
