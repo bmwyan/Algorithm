@@ -1,0 +1,77 @@
+1.动态规划：需要明确子序列和子数组之前的动态转义方程的差异
+leecode718 最长重复子数组，这个题第一次做，把他当成了子序列，直接套用子序列的转义方程，从而出现错误
+1）子序列模块：顺序保持一致即可，不需要连续
+dp[i][j] 表示数据A 1..i 前i个元数与数组B 1..j 前j个元素 最长公共子序列的长度
+
+if(nums[i]==nums[j]){
+    dp[i][j]=dp[i-1][j-1]+1;
+}else{
+    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+}
+return dp[m][n]
+
+2)子数组模板：要求元数是连续的
+dp[i][j]表示数据A 1..i 前i个元数与数组B 1..j 以最后一个元素结尾的最长公共子数组的长度
+
+ans=0;
+if(nums[i]==nums[j]){
+    dp[i][j]=dp[i-1][j-1]+1;
+}else{
+    dp[i][j]=0;
+}
+ans=Math.max(dp[i][j],ans)
+
+return ans;
+
+
+2.对于位运算，常见的运算方式，需要把下面常用解法强记下来，达到像乘法表那样可以直接使用
+将x最右边的n位清零：x&(~0<<n)
+获取x的第n位值（0或1 ）  (x>>n)&1
+获取x的第n位的幂值： x&(1<<n)
+仅将第n位置为1 x|1<<n;
+仅将第n位位置为0 x&(~(1<<n))
+将x最高位至第n位(含)清零 x&((1<<n)-1)
+清零最低位的1 x=x&(x-1)
+得到最低位的1 x&-x
+得到0 x&~x
+
+判断奇偶
+x&1==1 奇数
+x&1==0 偶数
+
+x>>1=x/2
+x<<1=x*2
+
+
+3.并查集的代码模板：主要可以解决类似岛屿数量、朋友圈，组团和配对问题
+public class UnionFind {
+    private int count = 0;
+    private int[] parent;
+
+    public UnionFind(int n) {
+        count = n;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    public int find(int p) {
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]];
+            p = parent[p];
+        }
+
+        return p;
+    }
+
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) {
+            return;
+        }
+        parent[rootP] = rootQ;
+        count--;
+    }
+}
