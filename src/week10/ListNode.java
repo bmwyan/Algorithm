@@ -1,4 +1,4 @@
-package week01;
+package week10;
 
 public class ListNode {
     int val;
