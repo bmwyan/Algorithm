@@ -1,0 +1,22 @@
+1.记忆化回溯模板：
+
+int dfs(mem)
+{
+    // 终止条件
+    if (xxx) return -1;
+    if (xxx) return 0;
+    if (mem[xxx] != -1) return mem[xxx];
+
+    // 求解体
+    int minval = INT_MAX;
+    for () {
+        int val = dfs(mem);
+        if (val) {
+            minval = min(minval, val);
+        }
+    }
+
+    // 当次记忆化结果更新，回溯
+    return mem[xxx] = minval;
+}
+https://leetcode-cn.com/problems/coin-change/solution/ji-yi-hua-hui-su-by-hw_wt/
