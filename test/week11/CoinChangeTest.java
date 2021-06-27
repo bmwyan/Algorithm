@@ -5,14 +5,20 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class CoinChangeTest {
-   // CoinChange c = new CoinChange();
+    CoinChange c = new CoinChange();
 
-    CoinChangeDFS c= new CoinChangeDFS();
+    //CoinChangeDFS c= new CoinChangeDFS();
 
     @Test
     public void coinChange() {
 
         assertEquals(3, c.coinChange(new int[]{1, 2, 5}, 11));
+    }
+
+    @Test
+    public void coinChange1() {
+
+        assertEquals(-1, c.coinChange(new int[]{2}, 3));
     }
 
     @Test
@@ -46,6 +52,10 @@ public class CoinChangeTest {
         assertEquals(24, c.coinChange(new int[]{411,412,413,414,415,416,417,418,419,420,421,422}, 9864));
     }
 
+    @Test
+    public void coinChange8() {
+        assertEquals(25, c.coinChange(new int[]{3,7,405,436}, 8839));
+    }
 
 
 }

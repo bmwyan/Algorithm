@@ -2,6 +2,7 @@ package week11;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 
 /**
  * @author : admin
@@ -12,7 +13,8 @@ import java.util.Comparator;
  * @date Date : 2021年06月18日 23:11
  */
 public class CoinChange {
-    private int count = Integer.MAX_VALUE;
+
+    private HashMap<Integer, Integer> mem = new HashMap<>();
 
     public int coinChange(int[] coins, int amount) {
         if (amount == 0) {
@@ -26,41 +28,41 @@ public class CoinChange {
             coins[end--] = temp;
         }
 
-        backTracking(coins, amount, 0, 0, 0);
-        if (count == Integer.MAX_VALUE) {
-            count = -1;
-        }
+        int count = backTracking(coins, amount, 0);
+        return count == Integer.MAX_VALUE ? -1 : count;
 
-        return count;
 
     }
 
-    private void backTracking(int[] coins, int amount, int index, int sum, int nums) {
-        System.out.println("index=" + index + ",count:" + count + ",sum=" + sum + ",amount:" + amount);
-        if (count < nums) {
-            return;
+    private int backTracking(int[] coins, int rest, int index) {
+        if (rest == 0) {
+            return 0;
         }
-        if (sum == amount) {
-            count = Math.min(count, nums);
-            return;
+        if (rest < 0) {
+            return -1;
         }
 
-        if (index == coins.length) {
-            return;
+        if (mem.containsKey(rest)) {
+            return mem.get(rest);
         }
+        //System.out.println("index=" + index + ",rest:" + rest);
 
+        int count = Integer.MAX_VALUE;
         for (int i = index; i < coins.length; i++) {
             int coinValue = coins[i];
-            int temp = (amount - sum) / coinValue;
+            int temp = rest / coinValue;
             for (int j = temp; j >= 0; j--) {
-                sum += j * coinValue;
-                nums += j;
-
-                this.backTracking(coins, amount, index + 1, sum, nums);
-                sum -= j * coinValue;
-                nums -= j;
+                rest -= j * coinValue;
+                int res = this.backTracking(coins, rest, index + 1);
+                if (res >= 0 && res + j < count) {
+                    count = res + j;
+                }
+                rest += j * coinValue;
             }
         }
+        count = count == Integer.MAX_VALUE ? -1 : count;
+        mem.put(rest, Integer.valueOf(count));
+        return count;
     }
 
 
